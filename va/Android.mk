@@ -27,6 +27,7 @@ LOCAL_PATH:= $(call my-dir)
 
 LIBVA_DRIVERS_PATH_32 := /vendor/lib/dri
 LIBVA_DRIVERS_PATH_64 := /vendor/lib64/dri
+LIBVA_CONFIG_DIR := /etc
 
 include $(CLEAR_VARS)
 
@@ -41,8 +42,11 @@ IGNORED_WARNNING = \
 LOCAL_SRC_FILES := \
 	va.c \
 	va_trace.c \
-	va_fool.c  \
-	va_str.c
+	va_fool.c \
+	va_str.c \
+	drm/va_drm.c \
+	drm/va_drm_auth.c \
+	drm/va_drm_utils.c
 
 LOCAL_CFLAGS_32 += \
 	-DVA_DRIVERS_PATH="\"$(LIBVA_DRIVERS_PATH_32)\"" \
@@ -53,7 +57,8 @@ LOCAL_CFLAGS_64 += \
 LOCAL_CFLAGS := \
 	$(IGNORED_WARNNING) \
 	$(if $(filter user,$(TARGET_BUILD_VARIANT)),,-DENABLE_VA_MESSAGING) \
-	-DLOG_TAG=\"libva\"
+	-DLOG_TAG=\"libva\" \
+	-DSYSCONFDIR="\"$(LIBVA_CONFIG_DIR)\""
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/..
 
