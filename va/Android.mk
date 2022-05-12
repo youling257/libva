@@ -46,7 +46,8 @@ LOCAL_SRC_FILES := \
 	va_str.c \
 	drm/va_drm.c \
 	drm/va_drm_auth.c \
-	drm/va_drm_utils.c
+	drm/va_drm_utils.c \
+	android/va_android.c
 
 LOCAL_CFLAGS_32 += \
 	-DVA_DRIVERS_PATH="\"$(LIBVA_DRIVERS_PATH_32)\"" \
@@ -63,6 +64,7 @@ LOCAL_CFLAGS := \
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/..
 
 LOCAL_COPY_HEADERS := \
+	va_android.h \
 	va.h \
 	va_version.h \
 	va_dec_hevc.h \
@@ -115,35 +117,3 @@ LOCAL_EXPORT_C_INCLUDE_DIRS := \
 
 include $(BUILD_SHARED_LIBRARY)
 
-# For libva-android
-# =====================================================
-
-include $(CLEAR_VARS)
-
-LOCAL_SRC_FILES := \
-	android/va_android.cpp \
-	drm/va_drm_utils.c
-
-LOCAL_CFLAGS += \
-	-DLOG_TAG=\"libva-android\" \
-	$(IGNORED_WARNNING)
-
-LOCAL_C_INCLUDES += \
-	$(LOCAL_PATH)/drm
-
-LOCAL_COPY_HEADERS_TO := libva/va
-
-LOCAL_COPY_HEADERS := va_android.h
-
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE := libva-android
-LOCAL_PROPRIETARY_MODULE := true
-
-LOCAL_SHARED_LIBRARIES := libva libdrm liblog
-
-ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 27; echo $$?), 0)
-LOCAL_STATIC_LIBRARIES += libarect
-LOCAL_HEADER_LIBRARIES += libnativebase_headers libutils_headers
-endif
-
-include $(BUILD_SHARED_LIBRARY)
