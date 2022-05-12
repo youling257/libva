@@ -31,7 +31,7 @@
 #include "va_trace.h"
 #include "va_android.h"
 #include "va_drmcommon.h"
-#include "va_drm_utils.h"
+#include "drm/va_drm_utils.h"
 #include <stdarg.h>
 #include <unistd.h>
 #include <sys/types.h>
