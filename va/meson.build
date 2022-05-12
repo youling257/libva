@@ -10,6 +10,10 @@ version_file = configure_file(
   configuration : version_cfg)
 
 libva_sources = [
+  'android/va_android.c',
+  'drm/va_drm.c',
+  'drm/va_drm_auth.c',
+  'drm/va_drm_utils.c',
   'va.c',
   'va_compat.c',
   'va_str.c',
@@ -17,6 +21,9 @@ libva_sources = [
 ]
 
 libva_headers = [
+  'va_android.h',
+  'drm/va_drm.h',
+  'drm/va_drm_auth.h',
   'va.h',
   'va_backend.h',
   'va_backend_prot.h',
@@ -80,7 +87,7 @@ libva = shared_library(
   link_args : libva_link_args,
   link_depends : libva_link_depends,
   install : true,
-  dependencies : [ dl_dep ])
+  dependencies : [ libdrm_dep, dl_dep ])
 
 libva_dep = declare_dependency(
   link_with : libva,
